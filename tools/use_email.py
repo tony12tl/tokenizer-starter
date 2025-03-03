@@ -1,13 +1,11 @@
 # tools/use_email.py
 """
-This tool is used to send emails using the Hub's branded template. It is a simple tool that uses the ZAPIER_EMAIL_WEBHOOK_URL environment variable to send emails. It will create an email in my drafts for specified recipient/subject/body. 
+This tool is used to send emails using a clean, professional boilerplate template. It is a simple tool that uses the ZAPIER_EMAIL_WEBHOOK_URL environment variable to send emails. It will create an email in my drafts for specified recipient/subject/body. 
 Features: 
-- Professional Hub branding with logo and styling
+- Professional, clean design with modern styling
 - Supports HTML formatting in content
 - Automatic paragraph formatting with proper spacing
 - Mobile-responsive design
-- Social media links in footer
-- Hub contact information automatically included
 - Built-in markdown to HTML conversion (with --markdown flag)
 
 IMPORTANT FORMATTING NOTES:
@@ -18,7 +16,7 @@ IMPORTANT FORMATTING NOTES:
 - For simple text emails, plain text content will be automatically formatted with paragraph spacing.
 - AVOID DUPLICATION: The template already includes:
   * The subject line at the top of the email
-  * A signature block with "Regards, Chris Boden, Director, Peregian Digital Hub"
+  * A signature block with "Regards, Chris Boden"
   * Do NOT repeat these elements in your content
 
 - HANDLING MULTILINE CONTENT:
@@ -95,7 +93,7 @@ def format_body_content(content):
         # If it's already HTML, wrap it in a container for consistent styling
         return f'''
         <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td>
-        <div style="font-family: Lora, Georgia, Times New Roman, serif; font-size: 16px; color: #2b2b2b; line-height: 1.6;">
+        <div style="font-family: 'Open Sans', Arial, sans-serif; font-size: 16px; color: #333333; line-height: 1.6;">
         {content}
         </div>
         </td></tr></table>
@@ -109,7 +107,7 @@ def format_body_content(content):
             # Use traditional email-safe markup with font tags and basic attributes
             formatted = (
                 f'<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td>'
-                f'<font face="Lora, Georgia, Times New Roman, serif" size="5" color="#2b2b2b">'
+                f'<font face="Open Sans, Arial, sans-serif" size="4" color="#333333">'
                 f'{para}'
                 f'</font>'
                 f'</td></tr></table>'
@@ -124,93 +122,64 @@ def apply_template(subject: str, body_content: str) -> str:
         return body_content
         
     formatted_body = format_body_content(body_content)
-    # Create a simpler, more traditional email template
+    # Create a clean, professional email template
     html = f'''
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <title>{subject}</title>
+<style>
+  body {{ font-family: 'Open Sans', Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; }}
+  .container {{ max-width: 600px; margin: 0 auto; }}
+  .header {{ background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 3px solid #4a90e2; }}
+  .content {{ padding: 30px; background-color: #ffffff; }}
+  .footer {{ background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #666666; }}
+  h1 {{ color: #4a90e2; margin-top: 0; }}
+  a {{ color: #4a90e2; text-decoration: none; }}
+  a:hover {{ text-decoration: underline; }}
+  .signature {{ margin-top: 30px; padding-top: 20px; border-top: 1px solid #eeeeee; }}
+</style>
 </head>
-<body bgcolor="#F9F6F2" style="margin: 0; padding: 0;">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F9F6F2">
+<body bgcolor="#f4f4f4" style="margin: 0; padding: 0;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4">
     <tr>
-        <td align="center" valign="top">
-            <table width="600" border="0" cellpadding="0" cellspacing="0">
-                <!-- Header with images -->
+        <td align="center" valign="top" style="padding: 20px 0;">
+            <table class="container" width="600" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-radius: 5px; box-shadow: 0 3px 6px rgba(0,0,0,0.1);">
+                <!-- Header -->
                 <tr>
-                    <td bgcolor="#0f1328" style="padding: 10px 20px;">
-                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="50%" align="right" style="padding-right: 10px;">
-                                    <img src="https://www.peregianhub.com.au/img/email/whale.png" width="250" alt="Whale" style="display: block; width: 100%; max-width: 250px;">
-                                </td>
-                                <td width="50%" align="left" style="padding-left: 10px;">
-                                    <img src="https://www.peregianhub.com.au/img/email/tokenizer.png" width="250" alt="Tokenizer" style="display: block; width: 100%; max-width: 250px;">
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- Subject -->
-                <tr>
-                    <td style="padding: 40px 40px 20px 40px;">
-                        <font face="Lora, Georgia, Times New Roman, serif" size="6" color="#2b2b2b">
-                            {subject}
-                        </font>
+                    <td class="header" style="padding: 20px; text-align: center; background-color: #f8f9fa; border-bottom: 3px solid #4a90e2; border-radius: 5px 5px 0 0;">
+                        <h1 style="color: #4a90e2; margin: 0; font-size: 24px; font-weight: 600;">{subject}</h1>
                     </td>
                 </tr>
                 <!-- Content -->
                 <tr>
-                    <td style="padding: 0 40px;">
+                    <td class="content" style="padding: 30px; background-color: #ffffff;">
                         {formatted_body}
                     </td>
                 </tr>
                 <!-- Signature -->
                 <tr>
-                    <td style="padding: 20px 40px;">
-                        <font face="Lora, Georgia, Times New Roman, serif" size="5" color="#2b2b2b">
-                            Regards<br><br>
-                            Chris Boden<br>
-                            Director, Peregian Digital Hub<br>
-                            0421850424
-                        </font>
-                    </td>
-                </tr>
-                <!-- Logo and Footer -->
-                <tr>
-                    <td align="center" style="padding: 40px 0;">
-                        <img src="https://www.peregianhub.com.au/img/email/logo.png" width="155" alt="Peregian Digital Hub" style="display: block; width: 155px;">
-                        <table width="100%" border="0" cellpadding="20" cellspacing="0">
+                    <td class="signature" style="padding: 0 30px 20px 30px;">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top: 1px solid #eeeeee; padding-top: 20px; margin-top: 20px;">
                             <tr>
-                                <td align="center">
-                                    <font face="Lora, Georgia, Times New Roman, serif" size="3" color="#2b2b2b">
-                                        <a href="https://www.peregianhub.com.au/" style="color: #2b2b2b; text-decoration: underline;">peregianhub.com.au</a>
-                                    </font>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                    <table border="0" cellpadding="5" cellspacing="0">
-                                        <tr>
-                                            <td><a href="https://facebook.com/peregianhub"><img src="https://www.peregianhub.com.au/img/email/fb.png" width="20" alt="Facebook"></a></td>
-                                            <td><a href="https://linkedin.com/company/peregianhub"><img src="https://www.peregianhub.com.au/img/email/li.png" width="21" alt="LinkedIn"></a></td>
-                                            <td><a href="https://www.youtube.com/@peregiandigitalhub4239"><img src="https://www.peregianhub.com.au/img/email/yt.png" width="20" alt="YouTube"></a></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                    <font face="Lora, Georgia, Times New Roman, serif" size="3" color="#2b2b2b">
-                                        253-255 David Low Way<br>
-                                        Peregian Beach QLD 4573, Australia
-                                    </font>
+                                <td>
+                                    <p style="margin: 0; font-size: 16px; color: #333333;">
+                                        Regards,<br><br>
+                                        Chris Boden<br>
+                                        0421850424
+                                    </p>
                                 </td>
                             </tr>
                         </table>
+                    </td>
+                </tr>
+                <!-- Footer -->
+                <tr>
+                    <td class="footer" style="padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 5px 5px; font-size: 14px; color: #666666;">
+                        <p style="margin: 0;">This email was sent using an automated system.</p>
                     </td>
                 </tr>
             </table>
@@ -314,7 +283,7 @@ def parse_list_arg(arg: str) -> List[str]:
 
 def main():
     """CLI entry point for the email tool."""
-    parser = argparse.ArgumentParser(description='Send an HTML email using the Hub\'s branded template.')
+    parser = argparse.ArgumentParser(description='Send an HTML email using a clean, professional boilerplate template.')
     parser.add_argument('--to', required=True, help='Comma-separated list of recipient email addresses')
     parser.add_argument('--subject', required=True, help='Subject line of the email')
     parser.add_argument('--content', required=True, help='Content of the email')
@@ -343,7 +312,7 @@ TOOL_METADATA = {
     "type": "function",
     "function": {
         "name": "use_email",
-        "description": "Send an HTML email using the Hub's branded template. Perfect for sending announcements, newsletters, or any communication that should have the Hub's professional look.",
+        "description": "Send an HTML email using a clean, professional boilerplate template. Perfect for sending announcements, newsletters, or any professional communication.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -378,7 +347,7 @@ TOOL_METADATA = {
                 },
                 "from_email": {
                     "type": "string",
-                    "description": "Optional - Sender email address. Defaults to Hub's official email."
+                    "description": "Optional - Sender email address. Defaults to official email."
                 },
                 "is_markdown": {
                     "type": "boolean",
