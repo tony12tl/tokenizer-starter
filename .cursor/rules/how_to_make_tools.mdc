@@ -1,0 +1,148 @@
+---
+description: Rules for coding
+globs: tools/*.py, sites/* apps/*
+alwaysApply: false
+---
+# CREATING TOOLS, SITES & APPS FOR ME
+
+## Introduction
+
+This document provides comprehensive instructions for creating various types of software solutions. As a non-developer, I rely on you to write, test, debug, and maintain all code. These guidelines ensure consistency and quality across all projects.
+
+## Choosing the Right Approach
+
+Before creating a solution, consider what type of implementation is most appropriate:
+
+1. **Command-line Tools**: For data processing, automation, or backend tasks that don't require a UI.
+   
+2. **Static Web Pages**: For simple informational content, landing pages, or documentation that doesn't need server-side processing or dynamic data handling.
+   
+3. **Web Applications**: Only use a full web application with server when you need:
+   - User authentication
+   - Database storage
+   - Dynamic content generation
+   - Form processing that can't be handled by static form services
+   - API endpoints
+
+Always choose the simplest approach that meets the requirements. Don't over-engineer solutions.
+
+
+## Development Principles
+
+- Write clear, readable, bug-free, fully functional code
+- Follow DRY principles (Don't Repeat Yourself)
+- Implement separation of concerns
+- Use try-except blocks with descriptive error messages
+- Use termcolor to print key steps for tracking progress
+- Include extensive commenting and docstrings
+- Verify code is complete and thoroughly tested
+- Request additional context when needed rather than making assumptions
+- You can use AI in your solutions, eg calling an LLM API to process data. You must read .cursor/rules/how_to_use_llm.mdc
+
+
+<behavior_rules>
+You have one mission: execute *exactly* what is requested.
+
+Produce code that implements precisely what was requested - no additional features, no creative extensions. Follow instructions to the letter.
+
+Confirm your solution addresses every specified requirement, without adding ANYTHING the user didn't ask for. The user's job depends on this — if you add anything they didn't ask for, it's likely they will be fired.
+
+Your value comes from precision and reliability. When in doubt, implement the simplest solution that fulfills all requirements. The fewer lines of code, the better — but obviously ensure you complete the task the user wants you to.
+
+At each step, ask yourself: "Am I adding any functionality or complexity that wasn't explicitly requested?". This will force you to stay on track.
+</behavior_rules>
+
+
+## Command-line Tools
+
+When instructed you create command line Python programs as tools that extend your agentic capabilities.
+
+### Environment and Setup
+
+- When running python code files always use `python3` not `python`
+- Use Python 3.12+ for all command-line tools
+- Place tools in the `/tools` directory
+- Prefer single-file implementations when possible
+
+### Usage Considerations
+
+- Tools are used in agentic workflows
+- Output should be clear and parsable
+- Tools will be called via CLI, generate output, and that output will be used to determine next steps
+
+### Tool manifest
+
+So that you don't have to read every tool file, we maintain a single manifest at /tools/manifest.json which contains a list of all of the cli endpoints for all tools in the tools dir. So, instead of having to read every tool file, read manifest.json
+
+## Static Web Sites
+
+### Environment and Setup
+
+- Create static sites that can run by simply opening an HTML file in a browser
+- No backend requirements
+- Place sites in the `/sites` directory in a descriptive project subdirectory
+
+### Technology Stack
+
+- Use CDN-hosted versions of Tailwind CSS and DaisyUI
+- For images, use Unsplash for placeholders
+
+### Project Structure
+
+```
+/sites/project_name/
+  index.html
+  /css/style.css (for custom CSS overrides)
+  /js/script.js (for custom client-side JS)
+  /images/ (for image files)
+```
+
+### Implementation Guidelines
+
+- The user should be able to simply open the index.html file in a browser
+- Sites should be ready for FTP deployment as static content
+- Custom CSS should only be used when necessary for overrides or specific theming
+
+## Web Applications
+
+### Environment and Setup
+
+- Only use a web server when truly necessary
+- Python environment uses `python3` command
+- Use UV for dependency management and virtual environments
+
+### Technology Stack
+
+- Backend: FastAPI
+- Frontend: Plain HTML, vanilla JavaScript, and CSS with minimal dependencies
+- Styling: Hosted Tailwind CSS with DaisyUI
+- Data Storage: Prefer flat JSON files over databases unless truly necessary
+
+### Project Structure
+
+```
+/apps/app_name/
+  main.py (FastAPI application)
+  /templates/
+    index.html
+  /static/
+    /css/
+    /js/
+    /img/
+```
+
+### Implementation Guidelines
+
+- Structure applications with clear separation of concerns
+- Make sure you test your own api's and regression test with each change
+- Templates for HTML
+- Static files for CSS, JS, and images
+- API endpoints for data processing
+- Avoid React and other complex frontend frameworks
+- Only use a database (sqllite) if flat JSON files are insufficient
+
+## Conclusion
+
+When implementing any solution, always start by understanding the requirements thoroughly. Choose the simplest approach that meets those requirements, and follow the specific guidelines for that type of solution as outlined above.
+
+Remember that these solutions will be maintained by someone who is not a developer, so clarity, simplicity, and thorough documentation are essential.

@@ -1,0 +1,422 @@
+{
+    "tools": {
+        "use_email.py": {
+            "hash": "c654dd9f08b9c0923a4ec37edf97648a2f254737fa18d1136d5cc8f780339a1d",
+            "commands": [
+                {
+                    "name": "use_email",
+                    "description": "Send an HTML email using the Hub's branded template. The agent should use this tool to send emails with professional Hub branding. The agent can include HTML formatting in the content, which is recommended to ensure correct rendering, or use the --markdown flag for automatic markdown to HTML conversion. For simple text emails, plain text content provided will be automatically formatted with paragraph spacing. The template includes the subject line and a signature block, so the agent should NOT repeat these elements in the content. The agent should always use the file redirection method, or use \\n characters for newlines when providing multiline content.",
+                    "usage": "python3 tools/use_email.py --to <recipient_email(s)> --subject <email_subject> --content <email_content> [--cc <cc_email(s)>] [--bcc <bcc_email(s)>] [--from-email <sender_email>] [--markdown]",
+                    "parameters": [
+                        {
+                            "name": "to",
+                            "description": "Recipient email address(es). Can be a single email or a comma-separated list of emails.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "subject",
+                            "description": "Subject line of the email.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "content",
+                            "description": "The main content of the email. For HTML content, provide the properly formatted HTML. For markdown content, provide the content in Markdown format, and use the --markdown flag. For simple text, plain text content will be automatically formatted with paragraph spacing. The agent should use the file redirection method (e.g. --content \"$(cat your_file.md)\") to avoid issues with multiline content.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "cc",
+                            "description": "Optional - CC recipient email address(es). Can be a single email or a comma-separated list of emails.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "bcc",
+                            "description": "Optional - BCC recipient email address(es). Can be a single email or a comma-separated list of emails",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "from-email",
+                            "description": "Optional - Sender email address. Defaults to chris.boden@noosa.qld.gov.au if not provided.",
+                            "type": "string",
+                            "required": false,
+                            "default": "chris.boden@noosa.qld.gov.au"
+                        },
+                        {
+                            "name": "markdown",
+                            "description": "Optional - If set, the content will be treated as markdown and converted to HTML before sending. The agent should use this flag if the content is in markdown format.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                }
+            ]
+        },
+        "use_twitter.py": {
+            "hash": "007459fae3cf11ffeddf0943b3925e840b2c73b8a14524393838346546618fb9",
+            "commands": [
+                {
+                    "name": "use_twitter.py",
+                    "description": "This tool is used to interact with the Twitter API. The agent should use this tool when the user asks for information or news from Twitter, or wants to check their Twitter favorites (likes). For example, if the user asks about what's happening with AI this week, the agent should use the `get_list_tweets` function with the appropriate list ID. If the agent is asked 'what have I found interesting this week', the agent should use the `get_user_likes` function.  The tool makes sure to include links to tweets when creating notes/emails/etc.",
+                    "usage": "python use_twitter.py <action> [options]",
+                    "parameters": []
+                },
+                {
+                    "name": "use_twitter.py user-tweets",
+                    "description": "Get tweets from a specific Twitter user's timeline. The agent should use this function when the user needs to retrieve the most recent tweets posted by a particular user. This is useful for checking what specific individuals or organizations have been posting about recently.",
+                    "usage": "python use_twitter.py user-tweets --username <username> [options]",
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "description": "The Twitter username (without the @ symbol).",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Maximum number of tweets to retrieve.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 10
+                        },
+                        {
+                            "name": "include-replies",
+                            "description": "Whether to include reply tweets in the results.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        },
+                        {
+                            "name": "include-pinned",
+                            "description": "Whether to include pinned tweets in the results.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                },
+                {
+                    "name": "use_twitter.py search",
+                    "description": "Search for tweets based on keywords, hashtags, or phrases. The agent should use this function when the user needs to find tweets about specific topics, events, or discussions happening on Twitter.  This is particularly useful for researching trending topics, gathering opinions, or monitoring conversations around specific subjects.",
+                    "usage": "python use_twitter.py search --query <search_query> [options]",
+                    "parameters": [
+                        {
+                            "name": "query",
+                            "description": "The search query.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "section",
+                            "description": "Section to search in ('top', 'latest', 'people', 'photos', 'videos').",
+                            "type": "string",
+                            "required": false,
+                            "default": "latest"
+                        },
+                        {
+                            "name": "min-retweets",
+                            "description": "Minimum number of retweets.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 0
+                        },
+                        {
+                            "name": "min-likes",
+                            "description": "Minimum number of likes.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 0
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of results to return.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 10
+                        },
+                        {
+                            "name": "start-date",
+                            "description": "Start date in YYYY-MM-DD format.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "end-date",
+                            "description": "End date in YYYY-MM-DD format.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "language",
+                            "description": "Filter by language (e.g., 'en').",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        }
+                    ]
+                },
+                {
+                    "name": "use_twitter.py list-tweets",
+                    "description": "Get tweets from a specific Twitter list. The agent should use this function when the user wants to get tweets from specific lists the user follows:\n- `1609883077026918400`: Tweets from people the user follows that are into AI and Tech\n- `1890266787457200309`: Tweets by vibe coders (people coding with AI)\n- `1848574231556346230`: Tweets by the major AI vendors (Openai, anthropic, etc)",
+                    "usage": "python use_twitter.py list-tweets --list-id <list_id> [options]",
+                    "parameters": [
+                        {
+                            "name": "list-id",
+                            "description": "The Twitter list ID.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of results to return.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 10
+                        }
+                    ]
+                },
+                {
+                    "name": "use_twitter.py likes",
+                    "description": "Get likes/favorites for a user directly from Twitter API. The agent should use this function when the user asks about tweets they have liked. The agent should use `get_user_likes` to get the tweets from the user's favorites for the last 7 days. The user's id USER_ID=8356",
+                    "usage": "python use_twitter.py likes --user-id <user_id> [options]",
+                    "parameters": [
+                        {
+                            "name": "user-id",
+                            "description": "The Twitter user ID.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of results to return.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 10
+                        }
+                    ]
+                }
+            ]
+        },
+        "use_linkedin.py": {
+            "hash": "cb7a61f5f6c65c2ba9cc521b3a68e7ed58736ec2a889c855ff99fb84e9157a2e",
+            "commands": [
+                {
+                    "name": "use_linkedin.py profile",
+                    "description": "The agent can use this command to get comprehensive profile details for a LinkedIn user. This retrieves detailed information about a LinkedIn profile including work history, education, skills, and other professional details. The agent should use this tool when the user needs to analyze someone's professional background or verify their credentials.",
+                    "usage": "python use_linkedin.py profile --username <linkedin_username> [--verbose]",
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "description": "The LinkedIn username (without the linkedin.com/in/ prefix).",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Show the full raw profile data.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                },
+                {
+                    "name": "use_linkedin.py posts",
+                    "description": "The agent can use this command to get recent posts from a LinkedIn user's activity feed. This retrieves the most recent content shared by a specific LinkedIn user. The agent should use this tool to understand what topics someone is discussing, what content they're sharing, and how they're engaging with their network.",
+                    "usage": "python use_linkedin.py posts --username <linkedin_username> [--verbose]",
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "description": "The LinkedIn username (without the linkedin.com/in/ prefix). Note that Chris Boden's username is `chrisboden`.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Show the full raw posts data.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                },
+                {
+                    "name": "use_linkedin.py search",
+                    "description": "The agent can use this command to search for LinkedIn users with various filters. This allows the agent to find LinkedIn profiles matching specific criteria such as name, company, job title, or location. The agent should use this tool for recruiting, networking, finding experts in specific fields, or researching people at target companies.",
+                    "usage": "python use_linkedin.py search [--keywords <search_keywords>] [--first-name <first_name>] [--last-name <last_name>] [--company <company_name>] [--title <job_title>] [--location <location>] [--start <start_index>] [--verbose]",
+                    "parameters": [
+                        {
+                            "name": "keywords",
+                            "description": "General search terms.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "first-name",
+                            "description": "First name filter.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "last-name",
+                            "description": "Last name filter.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "company",
+                            "description": "Company name filter.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "title",
+                            "description": "Job title filter.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "location",
+                            "description": "Geographic location filter.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "start",
+                            "description": "Starting index for pagination.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 0
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Show the full raw search results.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                },
+                {
+                    "name": "use_linkedin.py company",
+                    "description": "The agent can use this command to get detailed company information by LinkedIn username. This retrieves comprehensive details about a company including industry, size, specialties, and other business information. The agent should use this tool for company research, competitive analysis, or understanding potential business partners or employers.",
+                    "usage": "python use_linkedin.py company --username <linkedin_company_username> [--verbose]",
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "description": "The LinkedIn company username (without the linkedin.com/company/ prefix).",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Show the full raw company data.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                },
+                {
+                    "name": "use_linkedin.py updates",
+                    "description": "The agent can use this command to fetch LinkedIn updates for multiple companies at once. This function retrieves recent posts from multiple LinkedIn company pages simultaneously and can filter them by age. The agent should use this for monitoring competitors, tracking industry trends, or staying updated on multiple organizations of interest. The function can also generate AI-powered summaries of the updates if OpenRouter credentials are available.",
+                    "usage": "python use_linkedin.py updates (--urls <linkedin_company_urls> | --csv) [--post-count <number_of_posts>] [--max-age <max_age_in_days>] [--format <output_format>] [--output <output_file_path>] [--verbose]",
+                    "parameters": [
+                        {
+                            "name": "urls",
+                            "description": "List of LinkedIn company URLs.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "csv",
+                            "description": "Fetch company URLs from CSV defined in COMPANIES_CSV_URL env var.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        },
+                        {
+                            "name": "post-count",
+                            "description": "Number of recent posts to fetch per company.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 5
+                        },
+                        {
+                            "name": "max-age",
+                            "description": "Max age of posts in days.",
+                            "type": "integer",
+                            "required": false,
+                            "default": 30
+                        },
+                        {
+                            "name": "format",
+                            "description": "Output format (text or json).",
+                            "type": "string",
+                            "required": false,
+                            "default": "text"
+                        },
+                        {
+                            "name": "output",
+                            "description": "Output file path.",
+                            "type": "string",
+                            "required": false,
+                            "default": null
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Show full raw updates data.",
+                            "type": "boolean",
+                            "required": false,
+                            "default": false
+                        }
+                    ]
+                }
+            ]
+        },
+        "use_knowledge.py": {
+            "hash": "c2b4973c5d8ae280e73bcc058353206da571ca486121e3394980f395ffe52d59",
+            "commands": [
+                {
+                    "name": "use_knowledge",
+                    "description": "This tool helps the user query and extract relevant information from the user's synchronized Google Docs/Sheets knowledge base. The agent uses AI to select the most relevant documents and spreadsheets based on the user's query, combining them into a single markdown file for easy reference. The tool creates a knowledge base file in the `temp` directory that comprises Selected Document Metadata (Type, Source Folder, File Name, Selection Rationale), and Document Content (Full text of selected documents, Formatted markdown tables for spreadsheets, and clear separators between different sources). The agent should use this tool to respond to user queries that require information from the user's knowledge base.",
+                    "usage": "The agent calls this tool by providing a 'query' parameter within the tool call.",
+                    "parameters": [
+                        {
+                            "name": "query",
+                            "description": "The user's query or task description. This should be a natural language description of what information the user needs.",
+                            "type": "string",
+                            "required": true,
+                            "default": null
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
