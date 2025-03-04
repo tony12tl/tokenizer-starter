@@ -71,7 +71,7 @@ At each step, ask yourself: "Wait, am I adding any functionality or complexity t
 
 ## EXTRA TOOLS THAT GIVE YOU SUPERPOWERS
 
-I have extended your capabilities with cli programs that can assist you. IMPORTANT: When I ask you do something that requires tools that that you don't natively have, you MUST call agents/tools_agent.py with that request and it will reply with a plan showing the tools available to you and how to use them to achieve the goal. NOTE: Tools are in the /tools dir
+I have extended your capabilities with cli programs that can assist you. IMPORTANT: When I ask you do something that requires tools that you don't natively have, you MUST look in the /tools dir
 
 ## CREATING TOOLS, SITES & APPS
 
