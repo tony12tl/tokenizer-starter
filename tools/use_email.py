@@ -16,7 +16,7 @@ IMPORTANT FORMATTING NOTES:
 - For simple text emails, plain text content will be automatically formatted with paragraph spacing.
 - AVOID DUPLICATION: The template already includes:
   * The subject line at the top of the email
-  * A signature block with "Regards, Chris Boden"
+  * A signature block with "Regards, Tony Le"
   * Do NOT repeat these elements in your content
 
 - HANDLING MULTILINE CONTENT:
@@ -168,8 +168,8 @@ def apply_template(subject: str, body_content: str) -> str:
                                 <td>
                                     <p style="margin: 0; font-size: 16px; color: #333333;">
                                         Regards,<br><br>
-                                        Chris Boden<br>
-                                        0421850424
+                                        Tony Le<br>
+                                        0480144280
                                     </p>
                                 </td>
                             </tr>

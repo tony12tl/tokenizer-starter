@@ -38,6 +38,7 @@ Always choose the simplest approach that meets the requirements. Don't over-engi
 - Verify code is complete and thoroughly tested
 - Request additional context when needed rather than making assumptions
 - You can use AI in your solutions, eg calling an LLM API to process data. You must read .cursor/rules/how_to_use_llm.mdc
+- API Keys, system variables and secrets are always in the .env file. Look there when you need to before coding.
 
 
 <behavior_rules>
